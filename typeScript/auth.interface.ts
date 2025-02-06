@@ -3,7 +3,8 @@ export interface IloginProps {
     password: string,
     token: string,
     message: string,
-    status: number
+    status: number,
+    data: object
 }
 export interface IregisterProps {
     first_name: string,

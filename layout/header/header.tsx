@@ -1,164 +1,3 @@
-// import * as React from "react";
-// import AppBar from "@mui/material/AppBar";
-// import Box from "@mui/material/Box";
-// import Toolbar from "@mui/material/Toolbar";
-// import IconButton from "@mui/material/IconButton";
-// import Typography from "@mui/material/Typography";
-// import Menu from "@mui/material/Menu";
-// import Container from "@mui/material/Container";
-// import Avatar from "@mui/material/Avatar";
-// import Button from "@mui/material/Button";
-// import Tooltip from "@mui/material/Tooltip";
-// import MenuItem from "@mui/material/MenuItem";
-
-// const pages = ["Products", "Pricing", "Blog"];
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-// function ResponsiveAppBar() {
-//   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-//     null
-//   );
-//   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-//     null
-//   );
-
-//   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-//     setAnchorElNav(event.currentTarget);
-//   };
-//   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-//     setAnchorElUser(event.currentTarget);
-//   };
-
-//   const handleCloseNavMenu = () => {
-//     setAnchorElNav(null);
-//   };
-
-//   const handleCloseUserMenu = () => {
-//     setAnchorElUser(null);
-//   };
-
-//   return (
-//     <AppBar position="static">
-//       <Container maxWidth="xl">
-//         <Toolbar disableGutters>
-//           <Typography
-//             variant="h6"
-//             noWrap
-//             component="a"
-//             href="#app-bar-with-responsive-menu"
-//             sx={{
-//               mr: 2,
-//               display: { xs: "none", md: "flex" },
-//               fontFamily: "monospace",
-//               fontWeight: 700,
-//               letterSpacing: ".3rem",
-//               color: "inherit",
-//               textDecoration: "none",
-//             }}
-//           >
-//             LOGO
-//           </Typography>
-
-//           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-//             <IconButton
-//               size="large"
-//               aria-label="account of current user"
-//               aria-controls="menu-appbar"
-//               aria-haspopup="true"
-//               onClick={handleOpenNavMenu}
-//               color="inherit"
-//             ></IconButton>
-//             <Menu
-//               id="menu-appbar"
-//               anchorEl={anchorElNav}
-//               anchorOrigin={{
-//                 vertical: "bottom",
-//                 horizontal: "left",
-//               }}
-//               keepMounted
-//               transformOrigin={{
-//                 vertical: "top",
-//                 horizontal: "left",
-//               }}
-//               open={Boolean(anchorElNav)}
-//               onClose={handleCloseNavMenu}
-//               sx={{ display: { xs: "block", md: "none" } }}
-//             >
-//               {pages.map((page) => (
-//                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-//                   <Typography sx={{ textAlign: "center" }}>{page}</Typography>
-//                 </MenuItem>
-//               ))}
-//             </Menu>
-//           </Box>
-
-//           <Typography
-//             variant="h5"
-//             noWrap
-//             component="a"
-//             href="#app-bar-with-responsive-menu"
-//             sx={{
-//               mr: 2,
-//               display: { xs: "flex", md: "none" },
-//               flexGrow: 1,
-//               fontFamily: "monospace",
-//               fontWeight: 700,
-//               letterSpacing: ".3rem",
-//               color: "inherit",
-//               textDecoration: "none",
-//             }}
-//           >
-//             LOGO
-//           </Typography>
-//           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-//             {pages.map((page) => (
-//               <Button
-//                 key={page}
-//                 onClick={handleCloseNavMenu}
-//                 sx={{ my: 2, color: "white", display: "block" }}
-//               >
-//                 {page}
-//               </Button>
-//             ))}
-//           </Box>
-//           <Box sx={{ flexGrow: 0 }}>
-//             <Tooltip title="Open settings">
-//               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-//                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-//               </IconButton>
-//             </Tooltip>
-//             <Menu
-//               sx={{ mt: "45px" }}
-//               id="menu-appbar"
-//               anchorEl={anchorElUser}
-//               anchorOrigin={{
-//                 vertical: "top",
-//                 horizontal: "right",
-//               }}
-//               keepMounted
-//               transformOrigin={{
-//                 vertical: "top",
-//                 horizontal: "right",
-//               }}
-//               open={Boolean(anchorElUser)}
-//               onClose={handleCloseUserMenu}
-//             >
-//               {settings.map((setting) => (
-//                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-//                   <Typography sx={{ textAlign: "center" }}>
-//                     {setting}
-//                   </Typography>
-//                 </MenuItem>
-//               ))}
-//             </Menu>
-//           </Box>
-//         </Toolbar>
-//       </Container>
-//     </AppBar>
-//   );
-// }
-// export default ResponsiveAppBar;
-
 import { useState, useEffect } from "react";
 import {
   AppBar,
@@ -184,35 +23,79 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Link from "next/link";
 import ProfileModal from "@/pages/cms/profiledetails/profiledetails";
 import { useRouter } from "next/router";
+import { profileDetailsQuery } from "@/customHooks/query/cms.query.createhooks";
+import toast from "react-hot-toast";
+import { useUserStore } from "@/toolkit/store/store";
+import { useCookies } from "react-cookie";
+
+//const pro_pic = JSON.parse(localStorage.getItem('user') || '{}')
+
+
 
 const Header: React.FC = () => {
-  const router= useRouter()
+  const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [productMenuAnchor, setProductMenuAnchor] =useState<null | HTMLElement>(null);
+  const [productMenuAnchor, setProductMenuAnchor] = useState<null | HTMLElement>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProductMenuOpen, setIsProductMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const profilePic = "https://example.com/profile-pic.jpg";
-  
+  const { token, setToken, user, setUser } = useUserStore();
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const [pic, setPic] = useState<object | any>()
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  
-
-  const handleLogin = () => {
-   router.push(`/auth/login`)
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn"); 
-    setIsLoggedIn(false);
-  };
+  const {
+    data,
+    isPending: isPendingCategories,
+    isError: isErrorCategories,
+  } = profileDetailsQuery();
 
   useEffect(() => {
-    const loggedInStatus = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedInStatus);
-  }, []);
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const pro_pic = localStorage.getItem('user');
+      if (pro_pic) {
+        try {
+          const parsedData: any = JSON.parse(pro_pic);
+          //console.log(parsedData);
+          setPic(parsedData)
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      }
+    }
+    //console.log(pic);
+
+  }, [token])
+
+
+
+  // Sync Zustand state with cookies on component mount
+  useEffect(() => {
+    if (cookies.token) {
+      setToken(cookies.token);
+    } else {
+      setToken("");
+    }
+  }, [cookies.token, setToken, setUser]);
+
+  // Logout function
+  const handleLogout = () => {
+    removeCookie("token", { path: "/" });
+    setToken("");
+
+    toast.success("Logout Successfully");
+    router.push("/auth/login");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token")
+  };
+  // Login function
+  const handleLogin = () => {
+    router.push("/auth/login");
+  };
+
+
 
 
   const productSubItems = [
@@ -267,10 +150,13 @@ const Header: React.FC = () => {
           </List>
         </Collapse>
         <ListItem>
-          {isLoggedIn ? (
-            <Button onClick={handleLogout} style={{ textDecoration: "none", color: "inherit" }}>
-              Logout
-            </Button>
+          {token ? (
+            <>
+              <Typography variant="body1" color="initial">Hello, {data?.first_name}</Typography>
+              <Button onClick={handleLogout} style={{ textDecoration: "none", color: "inherit" }}>
+                Logout
+              </Button>
+            </>
           ) : (
             <Button onClick={handleLogin} style={{ textDecoration: "none", color: "inherit" }}>
               Sign In
@@ -332,10 +218,13 @@ const Header: React.FC = () => {
                 </MenuItem>
               ))}
             </Menu>
-            {isLoggedIn ? (
-              <Button onClick={handleLogout} color="inherit">
-                Logout
-              </Button>
+            {token ? (
+              <>
+                <Typography variant="body1" color="#fff">Hello, {pic?.first_name}</Typography>
+                <Button onClick={handleLogout} color="inherit">
+                  Logout
+                </Button>
+              </>
             ) : (
               <Button onClick={handleLogin} color="inherit">
                 Sign In
@@ -343,29 +232,22 @@ const Header: React.FC = () => {
             )}
           </Box>
 
-             <Box sx={{ display: "flex", alignItems: "center" }}>
-            {profilePic ? (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {token && data && (
               <Avatar
-                src={profilePic}
+                src={`https://wtsacademy.dedicateddevelopers.us/uploads/user/profile_pic/${pic.profile_pic}`}
                 sx={{ width: 40, height: 40, cursor: "pointer" }}
                 onClick={openModal}
-              /> 
-            ) : (
-              <Avatar
-                sx={{ bgcolor: "primary.main", cursor: "pointer" }}
-                onClick={openModal}
-              >
-                ?
-              </Avatar>
-            )}  
+              />
+            )}
 
             {/* Profile Modal */}
-              {isModalOpen && (
+            {isModalOpen && (
               <ProfileModal isOpen={isModalOpen} onClose={closeModal} />
             )}
-          </Box>   
+          </Box>
 
-{/* <Link href="/profile" style={{ textDecoration: "none", color: "inherit" }}>
+          {/* <Link href="/profile" style={{ textDecoration: "none", color: "inherit" }}>
             {profilePic ? <Avatar src={profilePic} sx={{ width: 40, height: 40 }} /> : <Avatar sx={{ bgcolor: "primary.main" }}>?</Avatar>}
           </Link> */}
 

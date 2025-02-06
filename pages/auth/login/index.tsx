@@ -148,7 +148,7 @@ const Login: React.FC = () => {
               }}
               onClick={handleLoginError}
             >
-              Don’t have an account? Register here
+              Don't have an account? Register here
             </Button>
           </form>
         </Paper>
