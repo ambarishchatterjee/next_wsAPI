@@ -11,8 +11,10 @@ import {
   Box,
   Grid2
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 const ProductCreate: React.FC = () => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -38,6 +40,7 @@ const ProductCreate: React.FC = () => {
       onSuccess: () => {
         reset();
         setImage(null);
+        router.push("/cms/list")
       },
     });
   };
@@ -49,7 +52,7 @@ const ProductCreate: React.FC = () => {
       alignItems="center"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(to right,#d1c4e9,rgb(238, 206, 254))",
+        background: "#222",
       }}
     >
       <Paper
@@ -57,8 +60,8 @@ const ProductCreate: React.FC = () => {
           width: "100%",
           maxWidth: 400,
           padding: 25,
-          background: "#f3e5f5",
-          borderRadius: 15,
+          background: "#999",
+          borderRadius: 0,
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.8)",
         }}
       >
@@ -141,7 +144,8 @@ const ProductCreate: React.FC = () => {
             variant="contained"
             type="submit"
             fullWidth
-            sx={{ mt: 3, fontSize: 18, color: "#000" }}
+            
+            sx={{ mt: 3, fontSize: 18, background: "#000", color: "#fff" }}
             disabled={isPending}
           >
             <b>{isPending ? "Creating..." : "Create Product"}</b>

@@ -14,7 +14,8 @@ export interface IregisterProps {
     profile_pic: string,
     token: string,
     message: string,
-    status: number
+    status: number,
+    data: object
 }
 export interface loginProps extends IloginProps {
     user: IloginProps

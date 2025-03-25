@@ -29,6 +29,7 @@ import {
 } from "@/customHooks/query/cms.query.createhooks";
 import ProductDetailsModal from "../productdetails/productdetails";
 import { productt, profile_pic } from "@/api/axios/axios";
+import Link from "next/link";
 
 export default function List() {
   const [page, setPage] = useState(1);
@@ -39,7 +40,7 @@ export default function List() {
   >(null);
   const [modal, setModal] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  console.log(page, "page");
+  //console.log(page, "page");
   const perPage = 10;
 
   const {
@@ -50,7 +51,7 @@ export default function List() {
   } = allProductsQuery(page, perPage);
 
   const totalPages = list?.data.totalPages || 1;
-  console.log(perPage, "perPage");
+//  console.log(perPage, "perPage");
   const products = list?.data.data || [];
 
   const { mutate, isPending: isDeleting } = deleteMutation();
@@ -94,18 +95,20 @@ export default function List() {
   };
 
   const renderTableRow = (product: any) => (
-    <TableRow key={product._id}>
+    <TableRow key={product._id} sx={{background: "#999"}}
+>
       <TableCell>
         <img
-          src={productt(product.image) || "/placeholder.jpg"}
+          src={productt(product.image) || "https://placehold.co/600x400"}
           alt={product.title}
-          style={{ height: "100px", objectFit: "contain" }}
+          style={{ height: "100px", objectFit: "cover" }}
         />
       </TableCell>
       <TableCell>{product.title}</TableCell>
       <TableCell>{product.description}</TableCell>
       <TableCell align="center">
         <Button
+          sx={{ background: "#222" }}
           variant="contained"
           color="primary"
           onClick={() => handleOpenModal(product._id)}
@@ -121,19 +124,22 @@ export default function List() {
         >
           <DeleteIcon />
         </IconButton>
-        <Button href={`/cms/list/${product._id}`} variant="contained">
+        <Link 
+          href={`/cms/list/${product._id}`} >
           Edit
-        </Button>
+        </Link>
       </TableCell>
     </TableRow>
+
   );
+  
 
   const renderCard = (product: any) => (
     <Grid item xs={12} sm={6} md={4} key={product._id}>
       <Card
         sx={{
           transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-          "&:hover": { transform: "scale(1.05)", boxShadow: 8 },
+          "&:hover": { transform: "scale(1.05)", boxShadow: 8 }, background: "#999"
         }}
       >
         <CardMedia
@@ -166,6 +172,7 @@ export default function List() {
             <Button
               variant="contained"
               color="primary"
+              sx={{background: "#222"}}
               onClick={() => handleOpenModal(product._id)}
             >
               View Details
@@ -179,9 +186,10 @@ export default function List() {
             >
               <DeleteIcon />
             </IconButton>
-            <Button href={`/cms/list/${product._id}`} variant="contained">
+            <Link style={{background:"#222", color: "#fff", padding: "14px 28px"}}
+ href={`/cms/list/${product._id}`} >
               Edit
-            </Button>
+            </Link>
           </Box>
         </CardActions>
       </Card>
@@ -192,20 +200,21 @@ export default function List() {
     <Box
       sx={{
         maxWidth: "1400px",
-        margin: "0 auto",
-        padding: "0 16px",
+        margin: "50px auto 0",
+        padding: "50px 16px",
+        background: "#222"
       }}
     >
       <Typography
         variant="h4"
         align="center"
         gutterBottom
-        sx={{ fontWeight: "bold", marginBottom: 4 }}
+        sx={{ fontWeight: "bold", marginBottom: 4, color: "#fff" }}
       >
         Product List
       </Typography>
 
-      <FormControlLabel
+      <FormControlLabel sx={{color: "#fff", marginBottom: "20px", background: "#999", width: "100%"}}
         control={<Switch checked={isTableView} onChange={toggleView} />}
         label="Toggle Table View"
       />
@@ -219,10 +228,10 @@ export default function List() {
       ) : products.length === 0 ? (
         <Typography align="center">No products found.</Typography>
       ) : isTableView ? (
-        <TableContainer component={Paper} sx={{ borderRadius: "10px" }}>
+        <TableContainer component={Paper} sx={{ borderRadius: "0px" }}>
           <Table>
-            <TableHead sx={{ background: "#9575cd" }}>
-              <TableRow>
+            <TableHead sx={{ background: "#fff" }}>
+              <TableRow >
                 <TableCell>Image</TableCell>
                 <TableCell>Title</TableCell>
                 <TableCell>Description</TableCell>

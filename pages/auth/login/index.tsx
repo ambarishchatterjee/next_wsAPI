@@ -17,6 +17,7 @@ import { loginProps } from "@/typeScript/auth.interface";
 import { useRouter } from "next/router";
 
 const Login: React.FC = () => {
+  
   const {
     register,
     handleSubmit,
@@ -40,7 +41,6 @@ const Login: React.FC = () => {
     mutate(formData, {});
     console.log(formData);
     reset();
-    router.push("/cms/list")
     
   };
 
@@ -58,7 +58,7 @@ const Login: React.FC = () => {
         alignItems="center"
         style={{
           minHeight: "100vh",
-          background: "#bbdefb",
+          background: "#222",
         }}
       >
         <Paper
@@ -66,18 +66,13 @@ const Login: React.FC = () => {
           style={{
             padding: 30,
             width: 300,
-            borderRadius: 15,
-            background: "#f3e5f5",
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.8)",
+            background: "#999",
+            boxShadow: "0 4px 20px rgba(65, 64, 64, 0.8)",
           }}
         >
           <Box textAlign="center">
-            <Avatar style={{ background: "#5d4037", margin: "0 auto" }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography
-              variant="h5"
-              style={{ margin: "20px 0", color: "#000", fontWeight: "bold" }}
+              style={{ margin: "20px 0", color: "#000", fontSize: '22px' }}
             >
               Sign In
             </Typography>
@@ -98,6 +93,10 @@ const Login: React.FC = () => {
               margin="normal"
               error={!!errors.email}
               helperText={errors.email && errors.email.message}
+              variant="standard"
+              InputLabelProps={{
+                style: { color: '#000' }, 
+             }}
             />
 
             <Box sx={{ position: "relative", width: "100%" }}>
@@ -109,6 +108,10 @@ const Login: React.FC = () => {
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password?.message}
+                variant="standard"
+                InputLabelProps={{
+                  style: { color: '#000' }, 
+               }}
               />
               <IconButton
                 onClick={togglePasswordVisibility}
@@ -129,9 +132,8 @@ const Login: React.FC = () => {
               fullWidth
               style={{
                 margin: "20px 0",
-                background: "#3949ab",
+                background: "#000",
                 color: "#fff",
-                fontWeight: "bold",
               }}
               disabled={isPending}
             >
@@ -142,7 +144,7 @@ const Login: React.FC = () => {
               variant="text"
               fullWidth
               style={{
-                color: "#3949ab",
+                color: "#000",
                 fontWeight: "bold",
                 textTransform: "none",
               }}

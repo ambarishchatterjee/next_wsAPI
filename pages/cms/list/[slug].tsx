@@ -26,6 +26,8 @@ export default function UpdateProduct() {
     isError: isErrorCategories,
   } = fetchProductQuery(id);
 
+  
+
   const {
     register,
     handleSubmit,
@@ -34,7 +36,7 @@ export default function UpdateProduct() {
   } = useForm<updateProps>();
 
   const { mutate, isPending } = updateMutation();
-  const [image, setImage] = useState<string | File | null>(null);
+  const [image, setImage] = useState< File | null  >(null);
 
   // useEffect(() => {
   //   if (product) {
@@ -49,12 +51,12 @@ export default function UpdateProduct() {
   //   }
   // }, [product,reset]);
 
-  useEffect(() => {
-    if (!isPending && !isErrorCategories && product) {
-      setValue("title", product.title);
-      setValue("description", product.description);
-    }
-  }, [product, setValue, isPending, isErrorCategories]);
+  // useEffect(() => {
+  //   if (!isPending && !isErrorCategories && product) {
+  //     setValue("title", product.title);
+  //     setValue("description", product.description);
+  //   }
+  // }, [product, setValue, isPending, isErrorCategories]);
 
   const sendData = async (e:any) => {
     const formdata = new FormData();
@@ -68,7 +70,7 @@ export default function UpdateProduct() {
     // setloading(true);
     mutate(formdata, {
       onSuccess: () => {
-        toast.success("Product Data Updated Successfully");
+        //toast.success("Product Data Updated Successfully");
         router.push("/cms/list");
       },
       onError: () => {
@@ -105,7 +107,7 @@ export default function UpdateProduct() {
       alignItems="center"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(to right,#d1c4e9,rgb(238, 206, 254))",
+        background: "#222",
       }}
     >
       <Paper
@@ -113,7 +115,7 @@ export default function UpdateProduct() {
           width: "100%",
           maxWidth: 400,
           padding: 25,
-          background: "#f3e5f5",
+          background: "#999",
           borderRadius: 15,
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.8)",
         }}
@@ -130,7 +132,9 @@ export default function UpdateProduct() {
           <TextField
             {...register("title", { required: "Title is required" })}
             label="Title"
-            placeholder="Enter product title"
+            placeholder={product.title}
+            defaultValue={product.title}
+            variant="standard"
             fullWidth
             margin="normal"
             error={!!errors.title}
@@ -141,7 +145,9 @@ export default function UpdateProduct() {
               required: "Description is required",
             })}
             label="Description"
-            placeholder="Enter product description"
+            placeholder={product.description}
+            defaultValue={product.description}
+            variant="standard"
             fullWidth
             margin="normal"
             multiline
@@ -182,11 +188,12 @@ export default function UpdateProduct() {
               )
             )}
           </Box>
+          
           <Button
             variant="contained"
             type="submit"
             fullWidth
-            sx={{ mt: 3, fontSize: 18, color: "#000" }}
+            sx={{ mt: 3, fontSize: 18, color: "#fff", background: "#222" }}
             disabled={isPending}
           >
             <b>{isPending ? "Updating..." : "Update Product"}</b>

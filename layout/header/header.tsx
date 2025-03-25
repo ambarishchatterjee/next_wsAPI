@@ -14,7 +14,7 @@ import {
   ListItemText,
   ListItemButton,
   Collapse,
-  Avatar,
+  Avatar, TextField,
 } from "@mui/material";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
       const pro_pic = localStorage.getItem('user');
       if (pro_pic) {
         try {
-          const parsedData: any = JSON.parse(pro_pic);
+          const parsedData: any = JSON?.parse(pro_pic);
           //console.log(parsedData);
           setPic(parsedData)
         } catch (error) {
@@ -101,7 +101,6 @@ const Header: React.FC = () => {
   const productSubItems = [
     { name: "Product Create", path: "/cms/create" },
     { name: "Product List", path: "/cms/list" },
-    { name: "Product Update", path: "/cms/list/[slug].tsx" },
   ];
 
   const toggleDrawer =
@@ -139,7 +138,7 @@ const Header: React.FC = () => {
           {isProductMenuOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={isProductMenuOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          <List>
             {productSubItems.map((item) => (
               <ListItem key={item.name} sx={{ pl: 4 }}>
                 <Link href={item.path} passHref>
@@ -152,8 +151,8 @@ const Header: React.FC = () => {
         <ListItem>
           {token ? (
             <>
-              <Typography variant="body1" color="initial">Hello, {data?.first_name}</Typography>
-              <Button onClick={handleLogout} style={{ textDecoration: "none", color: "inherit" }}>
+              <Typography variant="body1" marginLeft={"30px"} sx={{color: 'gold'}}>Hello, {data?.first_name}</Typography>
+              <Button onClick={handleLogout} style={{ textDecoration: "none", color: "inherit", marginLeft: "30px" }}>
                 Logout
               </Button>
             </>
@@ -169,61 +168,67 @@ const Header: React.FC = () => {
 
   return (
     <div>
-      <AppBar position="static" style={{ backgroundColor: "#2196f3" }}>
+      <AppBar position="fixed" style={{ backgroundColor: "#000" }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="logo"
-          >
-            <ProductionQuantityLimitsIcon />
-          </IconButton>
+
 
           <Typography
-            variant="h5"
-            component="div"
             sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
           >
-            My Beauty Product App
+            Product.
           </Typography>
 
           <Box
             sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
           >
-            <Button
-              color="inherit"
-              onMouseEnter={(e) => setProductMenuAnchor(e.currentTarget)}
-              aria-controls="product-menu"
-              aria-haspopup="true"
-            >
-              Product
-            </Button>
-            <Menu
-              id="product-menu"
-              anchorEl={productMenuAnchor}
-              open={Boolean(productMenuAnchor)}
-              onClose={() => setProductMenuAnchor(null)}
-              MenuListProps={{ onMouseLeave: () => setProductMenuAnchor(null) }}
-              sx={{ mt: 1 }}
-            >
-              {productSubItems.map((item) => (
-                <MenuItem
-                  key={item.name}
-                  onClick={() => setProductMenuAnchor(null)}
-                >
-                  <Link href={item.path} passHref>
-                    {item.name}
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
             {token ? (
               <>
+                <Button
+                  color="inherit"
+                  onMouseEnter={(e) => setProductMenuAnchor(e.currentTarget)}
+                  aria-controls="product-menu"
+                  aria-haspopup="true"
+                >
+                  Product
+                </Button>
+                <Menu
+                  id="product-menu"
+                  anchorEl={productMenuAnchor}
+                  open={Boolean(productMenuAnchor)}
+                  onClose={() => setProductMenuAnchor(null)}
+                  MenuListProps={{ onMouseLeave: () => setProductMenuAnchor(null) }}
+                  sx={{ mt: 1 }}
+                >
+                  {productSubItems.map((item) => (
+                    <MenuItem
+                      key={item.name}
+                    >
+                      <Link href={item.path} passHref>
+                        <Typography variant="subtitle2" color="initial" sx={{ textDecoration: 'none' }}>{item.name}</Typography>
+
+                      </Link>
+                    </MenuItem>
+                  ))}
+                </Menu>
                 <Typography variant="body1" color="#fff">Hello, {pic?.first_name}</Typography>
-                <Button onClick={handleLogout} color="inherit">
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+
+                  <Avatar
+                    src={`https://wtsacademy.dedicateddevelopers.us/uploads/user/profile_pic/${pic?.profile_pic}`}
+                    sx={{ width: 40, height: 40, cursor: "pointer" }}
+                    onClick={openModal}
+                  />
+
+
+                  {/* Profile Modal */}
+                  {isModalOpen && (
+                    <ProfileModal isOpen={isModalOpen} onClose={closeModal} />
+                  )}
+                </Box>
+                <Button sx={{marginLeft: "30px"}} onClick={handleLogout} color="inherit" variant="outlined">
                   Logout
                 </Button>
+
               </>
             ) : (
               <Button onClick={handleLogin} color="inherit">
@@ -232,20 +237,7 @@ const Header: React.FC = () => {
             )}
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            {token && data && (
-              <Avatar
-                src={`https://wtsacademy.dedicateddevelopers.us/uploads/user/profile_pic/${pic.profile_pic}`}
-                sx={{ width: 40, height: 40, cursor: "pointer" }}
-                onClick={openModal}
-              />
-            )}
 
-            {/* Profile Modal */}
-            {isModalOpen && (
-              <ProfileModal isOpen={isModalOpen} onClose={closeModal} />
-            )}
-          </Box>
 
           {/* <Link href="/profile" style={{ textDecoration: "none", color: "inherit" }}>
             {profilePic ? <Avatar src={profilePic} sx={{ width: 40, height: 40 }} /> : <Avatar sx={{ bgcolor: "primary.main" }}>?</Avatar>}

@@ -19,7 +19,7 @@ export const profile_pic = (media: string) => {
 axiosInstance.interceptors.request.use(
   function (config: any) {
     const token = cookie.get("token");
-    console.log(token, "token"); 
+    //console.log(token, "token"); 
     if (token) {
       config.headers = config.headers || {};
       config.headers["x-access-token"] = token;

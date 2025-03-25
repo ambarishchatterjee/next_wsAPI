@@ -61,7 +61,7 @@ const Registration: React.FC = () => {
       sx={{
         minHeight: "100vh",
         background:
-          "linear-gradient(to right,rgb(247, 202, 190),rgb(249, 246, 212))",
+          "#222",
         padding: 2,
       }}
     >
@@ -70,18 +70,14 @@ const Registration: React.FC = () => {
         sx={{
           width: "100%",
           maxWidth: 350,
-          backgroundColor: "rgba(210, 243, 252, 0.85)",
-          borderRadius: 2,
+          backgroundColor: "#999",
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.8)",
           padding: 4,
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
         <Typography
-          variant="h4"
-          component="h1"
-          align="center"
-          sx={{ marginBottom: 3, fontWeight: 500 }}
+          style={{ margin: "20px 0", color: "#000", fontSize: '22px' }}
         >
           Registration Form
         </Typography>
@@ -194,6 +190,7 @@ const Registration: React.FC = () => {
           type="submit"
           variant="contained"
           fullWidth
+          
           sx={{ padding: 1.5, fontWeight: 600 }}
           disabled={isPending}
         >
@@ -203,7 +200,7 @@ const Registration: React.FC = () => {
           variant="text"
           fullWidth
           style={{
-            color: "#3949ab",
+            color: "#000",
             fontWeight: "bold",
             textTransform: "none",
           }}

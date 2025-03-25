@@ -7,10 +7,10 @@ interface props {
 }
 const Wrapper: React.FC<props> = ({ children }) => {
   return (
-    <div>
+    <>
       <Header/>
       {children}
-    </div>
+    </>
   );
 };
 

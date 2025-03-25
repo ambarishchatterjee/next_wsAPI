@@ -41,19 +41,24 @@ export const loginMutation = (): UseMutationResult<loginProps, unknown> => {
 
 export const registerMutation = (): UseMutationResult<registerProps, unknown> => {
   const { queryClient } = useGlobalHooks();
+  const router = useRouter()
   const cookie = new Cookies();
   return useMutation<registerProps, void, unknown>({
     mutationFn: registerFn,
     onSuccess: (res) => {
-      const { token, status, message, user } = res || {};
+      const { token, status, message, data } = res || {};
+      console.log(data);
+      
 
       if (status === 200 && token) {
         cookie.set("token", token, { path: "/", secure: true });
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(data));
         toast.success("Registration successful! Welcome aboard.");
+        router.push("/cms/create");
       } else {
         toast.error(message || "Registration failed.");
       }
+
 
       queryClient.invalidateQueries({ queryKey: ["REGISTER"] });
     },
